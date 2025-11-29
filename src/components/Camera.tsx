@@ -30,57 +30,57 @@ export default function Camera({ photoCount, onComplete, timerDuration = 3 }: Ca
         }
     }, [selectedDeviceId]);
 
-    // Capture a burst of frames
-    const captureBurst = useCallback(async () => {
-        const burst: string[] = [];
-        const BURST_COUNT = 30; // 3 seconds at 100ms interval
-        const BURST_INTERVAL = 100;
-
-        // We want to capture *before* the flash ideally, or during.
-        // Let's capture rapidly.
-        for (let i = 0; i < BURST_COUNT; i++) {
-            const imageSrc = webcamRef.current?.getScreenshot();
-            if (imageSrc && imageSrc.startsWith("data:image/")) {
-                console.log(`Frame captured. Length: ${imageSrc.length}, Start: ${imageSrc.substring(0, 30)}...`);
-                burst.push(imageSrc);
-            } else {
-                console.warn("Invalid frame captured:", imageSrc ? "Invalid format" : "Null");
-            }
-            await new Promise(r => setTimeout(r, BURST_INTERVAL));
-        }
-
-        console.log(`Captured burst with ${burst.length} frames`);
-        if (burst.length > 0) {
-            setFlash(true);
-            setTimeout(() => setFlash(false), 100);
-            setPhotos((prev) => [...prev, burst]);
-        }
-    }, []);
+    const burstRef = useRef<string[]>([]);
 
     useEffect(() => {
-        if (photos.length >= photoCount && isCapturing) {
-            setIsCapturing(false);
-            onComplete(photos, filter);
-        }
-    }, [photos, photoCount, isCapturing, onComplete, filter]);
+        let countdownTimer: NodeJS.Timeout;
+        let captureTimer: NodeJS.Timeout;
 
-    useEffect(() => {
-        let timer: NodeJS.Timeout;
         if (isCapturing && photos.length < photoCount) {
             setCountdown(timerDuration);
             let currentCount = timerDuration;
+            burstRef.current = []; // Reset burst for new photo
 
-            timer = setInterval(() => {
+            // Start capturing frames immediately (pre-capture)
+            // This captures the "getting ready" moments
+            captureTimer = setInterval(() => {
+                const imageSrc = webcamRef.current?.getScreenshot();
+                if (imageSrc && imageSrc.startsWith("data:image/")) {
+                    burstRef.current.push(imageSrc);
+                }
+            }, 100); // 10fps
+
+            // Start countdown
+            countdownTimer = setInterval(() => {
                 currentCount--;
                 setCountdown(currentCount);
+
                 if (currentCount <= 0) {
-                    clearInterval(timer);
-                    captureBurst(); // Trigger burst
+                    // STOP everything
+                    clearInterval(countdownTimer);
+                    clearInterval(captureTimer);
+
+                    // Final Snap (The actual photo)
+                    const finalSnap = webcamRef.current?.getScreenshot();
+                    if (finalSnap && finalSnap.startsWith("data:image/")) {
+                        burstRef.current.push(finalSnap);
+                    }
+
+                    // Flash immediately
+                    setFlash(true);
+                    setTimeout(() => setFlash(false), 100);
+
+                    // Save the burst
+                    setPhotos((prev) => [...prev, [...burstRef.current]]);
                 }
             }, 1000);
         }
-        return () => clearInterval(timer);
-    }, [isCapturing, photos.length, photoCount, timerDuration, captureBurst]);
+
+        return () => {
+            clearInterval(countdownTimer);
+            clearInterval(captureTimer);
+        };
+    }, [isCapturing, photos.length, photoCount, timerDuration]);
 
     const startSession = () => {
         setPhotos([]);
@@ -160,7 +160,7 @@ export default function Camera({ photoCount, onComplete, timerDuration = 3 }: Ca
                 )}
             </div>
 
-            {/* Preview of taken shots (Last frame of each burst) */}
+            {/* Preview of taken shots (Last frame of each burst - The Snap) */}
             <div className={styles.stripPreview}>
                 {photos.map((burst, idx) => (
                     <img key={idx} src={burst[burst.length - 1]} alt={`shot ${idx}`} className={styles.thumb} style={getFilterStyle(filter)} />
