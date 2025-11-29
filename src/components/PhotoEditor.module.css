@@ -1,0 +1,246 @@
+.container {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 2rem;
+    width: 100%;
+    max-width: 1000px;
+}
+
+@media (min-width: 768px) {
+    .container {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+}
+
+.controlsSidebar {
+    flex: 1;
+    background: white;
+    padding: 2rem;
+    border-radius: 1.5rem;
+    border: 2px solid var(--foreground);
+    box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.section h3 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: var(--foreground);
+}
+
+.colorGrid {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.colorBtn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.colorBtn:hover {
+    transform: scale(1.1);
+}
+
+.stickerGrid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.8rem;
+}
+
+.stickerBtn {
+    font-size: 2rem;
+    background: white;
+    border: 2px solid #eee;
+    border-radius: 1rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: all 0.2s;
+}
+
+.stickerBtn:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+.exportBtns {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.exportBtns button {
+    flex: 1;
+}
+
+.previewArea {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+    perspective: 1000px;
+}
+
+.photoStrip {
+    position: relative;
+    padding: 24px;
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    /* Realistic Paper Effect */
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.05),
+        0 4px 16px rgba(0, 0, 0, 0.1);
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+    transform-style: preserve-3d;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-hand);
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #333;
+    opacity: 0.8;
+    margin-bottom: 0.5rem;
+    padding: 0 4px;
+}
+
+.date {
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+.brand {
+    letter-spacing: 2px;
+}
+
+.grid {
+    display: grid;
+    gap: 16px;
+}
+
+.photoFrame {
+    background: #eee;
+    overflow: hidden;
+    /* Inner shadow for depth */
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+/* Glossy overlay on photos */
+.photoFrame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.05) 100%);
+    pointer-events: none;
+}
+
+.photoFrame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Layout Specifics */
+.layout4Diagonal .grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+.layout3Diagonal .grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, 1fr);
+}
+
+.layout4Square .grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    aspect-ratio: 1;
+}
+
+.layout6Grid .grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(3, 1fr);
+}
+
+.sticker {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* Ensure controls don't scale with the content transform */
+}
+
+.stickerContent {
+    font-size: 4rem;
+    user-select: none;
+    filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.2));
+    transition: transform 0.1s;
+}
+
+.stickerControls {
+    position: absolute;
+    top: -20px;
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 2px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sticker:hover .stickerControls {
+    opacity: 1;
+}
+
+.controlBtn {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    font-size: 10px;
+}
+
+.controlBtn:nth-child(1) {
+    background: #FFB7B2;
+}
+
+/* Minus */
+.controlBtn:nth-child(2) {
+    background: #FF6B6B;
+}
+
+/* Remove */
+.controlBtn:nth-child(3) {
+    background: #B5EAD7;
+}
+
+/* Plus */
+
+.controlBtn:hover {
+    transform: scale(1.1);
+}

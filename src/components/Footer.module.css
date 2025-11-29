@@ -1,0 +1,49 @@
+.footer {
+    width: 100%;
+    padding: 2rem 0;
+    background: white;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    margin-top: auto;
+    /* Push to bottom */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.copyright {
+    font-weight: 500;
+}
+
+.dedication {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: var(--font-hand);
+    font-size: 1.1rem;
+    color: var(--foreground);
+}
+
+.heart {
+    animation: beat 1.5s infinite;
+}
+
+@keyframes beat {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+}

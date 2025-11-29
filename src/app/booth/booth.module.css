@@ -1,0 +1,51 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.backLink {
+    color: #666;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.steps {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+.activeStep {
+    color: var(--foreground);
+    font-weight: 600;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.placeholderEdit {
+    text-align: center;
+}
+
+.debugGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+.debugGrid img {
+    width: 100px;
+    height: auto;
+    border: 1px solid #ddd;
+}
