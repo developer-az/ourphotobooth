@@ -33,6 +33,13 @@ export default function Camera({ photoCount, onComplete, timerDuration = 3 }: Ca
     const burstRef = useRef<string[]>([]);
 
     useEffect(() => {
+        if (isCapturing && photos.length === photoCount) {
+            setIsCapturing(false);
+            onComplete(photos, filter);
+        }
+    }, [photos, photoCount, isCapturing, onComplete, filter]);
+
+    useEffect(() => {
         let countdownTimer: NodeJS.Timeout;
         let captureTimer: NodeJS.Timeout;
 
