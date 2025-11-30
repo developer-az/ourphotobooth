@@ -1,7 +1,7 @@
 .container {
     display: flex;
     flex-direction: column-reverse;
-    gap: 2rem;
+    gap: 1rem;
     width: 100%;
     max-width: 1000px;
 }
@@ -10,19 +10,27 @@
     .container {
         flex-direction: row;
         align-items: flex-start;
+        gap: 2rem;
     }
 }
 
 .controlsSidebar {
     flex: 1;
     background: white;
-    padding: 2rem;
+    padding: 1.5rem;
     border-radius: 1.5rem;
     border: 2px solid var(--foreground);
     box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .controlsSidebar {
+        padding: 2rem;
+        gap: 2rem;
+    }
 }
 
 .section h3 {
@@ -85,8 +93,19 @@
     flex: 2;
     display: flex;
     justify-content: center;
-    padding: 2rem;
+    align-items: flex-start;
+    padding: 1rem;
     perspective: 1000px;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+}
+
+@media (min-width: 768px) {
+    .previewArea {
+        padding: 2rem;
+        align-items: flex-start;
+        max-height: calc(100vh - 4rem);
+    }
 }
 
 .photoStrip {
@@ -104,6 +123,22 @@
         0 4px 16px rgba(0, 0, 0, 0.1);
     background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
     transform-style: preserve-3d;
+}
+
+@media (max-width: 767px) {
+    .photoStrip {
+        padding: 16px;
+        gap: 12px;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 767px) {
+    .photoStrip {
+        padding: 16px;
+        gap: 12px;
+        max-width: 100%;
+    }
 }
 
 .header {
@@ -131,6 +166,15 @@
 .grid {
     display: grid;
     gap: 16px;
+    width: 100%;
+    align-items: start;
+    min-height: 0;
+}
+
+@media (max-width: 767px) {
+    .grid {
+        gap: 12px;
+    }
 }
 
 .photoFrame {
@@ -139,6 +183,10 @@
     /* Inner shadow for depth */
     box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.2);
     position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Glossy overlay on photos */
@@ -152,31 +200,31 @@
 
 .photoFrame img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    max-height: none;
+    object-fit: contain;
     display: block;
 }
 
 /* Layout Specifics */
 .layout4Diagonal .grid {
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: auto;
 }
 
 .layout3Diagonal .grid {
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-rows: auto;
 }
 
 .layout4Square .grid {
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    aspect-ratio: 1;
+    grid-template-rows: auto;
 }
 
 .layout6Grid .grid {
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-rows: auto;
 }
 
 .sticker {
@@ -202,19 +250,28 @@
     gap: 4px;
     opacity: 0;
     transition: opacity 0.2s;
-    background: rgba(255, 255, 255, 0.8);
-    padding: 2px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 4px;
     border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 20;
 }
 
-.sticker:hover .stickerControls {
+.sticker:hover .stickerControls,
+.sticker:active .stickerControls {
     opacity: 1;
 }
 
+/* Show controls on touch devices */
+@media (hover: none) and (pointer: coarse) {
+    .stickerControls {
+        opacity: 1;
+    }
+}
+
 .controlBtn {
-    width: 20px;
-    height: 20px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     border: none;
     display: flex;
@@ -222,7 +279,17 @@
     justify-content: center;
     cursor: pointer;
     color: white;
-    font-size: 10px;
+    font-size: 12px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+@media (min-width: 768px) {
+    .controlBtn {
+        width: 20px;
+        height: 20px;
+        font-size: 10px;
+    }
 }
 
 .controlBtn:nth-child(1) {
@@ -243,4 +310,32 @@
 
 .controlBtn:hover {
     transform: scale(1.1);
+}
+
+.progressBar {
+    width: 100%;
+    height: 8px;
+    background: #f0f0f0;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    margin-top: 0.5rem;
+}
+
+.progressBarFill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.progressText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--foreground);
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
 }
