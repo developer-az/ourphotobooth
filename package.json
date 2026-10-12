@@ -2,6 +2,9 @@
   "name": "photobooth-app",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -13,9 +16,9 @@
     "gif.js": "^0.2.0",
     "html2canvas": "^1.4.1",
     "lucide-react": "^0.555.0",
-    "next": "16.0.5",
-    "react": "19.2.0",
-    "react-dom": "19.2.0",
+    "next": "16.4.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
     "react-draggable": "^4.5.0",
     "react-webcam": "^7.2.0"
   },
@@ -26,7 +29,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.0.5",
+    "eslint-config-next": "16.4.0",
     "typescript": "^5"
   }
 }
