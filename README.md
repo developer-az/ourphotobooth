@@ -64,9 +64,9 @@ public/
 
 ## Deploying to Vercel
 
-This app deploys as a Next.js project. `package.json` sets `engines.node` to `24.x`, and `.node-version` is `24`. The `engines` field overrides the Node.js version in the Vercel project settings.
+This app deploys as a Next.js project. `package.json` sets `engines.node` to `24.x`, and `.node-version` is `24`.
 
-That pin matters because this project was created while Node.js 20 was a valid Vercel runtime. On October 1, 2026 Vercel disabled Node.js 20 for new deployments. Existing production deployments keep serving, but a new build fails until the project requests Node.js 22 or 24. `24.x` is the current default.
+That pin matters because this project was created while Node.js 20 was a valid Vercel runtime. On October 1, 2026 Vercel disabled Node.js 20 for new builds. The existing production deployment keeps serving, but a new deployment is rejected while the project is still set to 20.x. `engines.node` tells the build to use 24.x. If Vercel still fails before install with `Node.js Version "20.x" is discontinued`, open the project settings, go to Build and Deployment, and set Node.js Version to 24.x. That setting chooses the build image.
 
 Pushing to the connected GitHub repository creates the deployment. Production is [https://ourphotobooth.vercel.app](https://ourphotobooth.vercel.app).
 
