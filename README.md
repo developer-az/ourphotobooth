@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# OurPhotobooth
+
+A modern web-based photobooth built with Next.js that lets users capture multi-shot photo strips, apply live filters, decorate with stickers, and export results as PNG, JPG, or animated GIF.
+
+## Highlights
+
+- Multiple photo strip layouts:
+  - 4-Cut Diagonal
+  - 3-Cut Diagonal
+  - 4-Cut Square
+  - 6-Cut Grid
+- Live camera capture with countdown and burst-frame support
+- Camera device selection for multi-camera setups
+- Real-time visual filters (Normal, B/W, Soft, Vintage)
+- Interactive sticker placement and resizing in the editor
+- Border color customization for the final strip
+- Export options:
+  - PNG
+  - JPG
+  - Animated GIF
+
+## Tech Stack
+
+- **Framework:** Next.js 16 (App Router)
+- **Language:** TypeScript + React 19
+- **Camera:** `react-webcam`
+- **Exporting:** `html2canvas`, `file-saver`, `gif.js`
+- **UI/Icons:** CSS Modules, `lucide-react`
+- **Drag interactions:** `react-draggable`
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 20+ (recommended)
+- npm
+- A browser with camera permissions enabled
+
+### Installation
+
+```bash
+npm install
+```
+
+### Run in Development
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Available Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` — Start development server
+- `npm run build` — Build for production
+- `npm run start` — Run production server
+- `npm run lint` — Run ESLint checks
 
-## Learn More
+## How It Works
 
-To learn more about Next.js, take a look at the following resources:
+1. Start the booth from the home page.
+2. Choose a strip layout.
+3. Capture photos with countdown and burst support.
+4. Edit your strip with stickers and border colors.
+5. Export the final result as PNG, JPG, or GIF.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```text
+src/
+  app/
+    page.tsx           # Landing page
+    booth/page.tsx     # Booth flow (layout -> camera -> editor)
+  components/
+    Camera.tsx         # Capture workflow
+    LayoutSelector.tsx # Layout selection UI
+    PhotoEditor.tsx    # Strip editing + export
+  context/
+    NavbarContext.tsx  # Shared navbar state
+```
 
-## Deploy on Vercel
+## Notes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- For best results, use good lighting and allow camera access.
+- GIF export may take a few seconds depending on burst size and device performance.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+
+This repository currently does not define a license. Add one before public distribution if needed.
